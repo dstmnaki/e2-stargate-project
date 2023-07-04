@@ -543,7 +543,6 @@ if(first()){
                 Exists=1
                 stoptimer("404")
                 Open=1
-                print(Name)
                 DsGetData=dsGetTable()
                 GetTargetEntity=DsGetData[2,entity]
             break
