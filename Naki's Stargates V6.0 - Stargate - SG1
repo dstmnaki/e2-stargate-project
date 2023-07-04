@@ -17,12 +17,12 @@ if(first()){
     
     entity():setAlpha(0)
     
-    Address = "abcdefg"
+    Address = "spawn17"
     
     Cur=1
     
     #Name of the gate
-    Name = "Gate Name"
+    Name = "SGC"
     
     setName(Name+": "+Address)
     
@@ -622,13 +622,13 @@ if(first()){
             if((E:pos()+vec(0,0,E:height()/2)):distance(Door1:pos())<60){
                 if(Door1:toWorld(vec(0,100,0)):isInCone(E:shootPos(),E:eyeAngles(),45,200)){
                     E:plySetAng((Door2:right()):toAngle())
-                    E:plySetPos(Door2:toWorld(vec(0,25,-15)+Door1:toLocal(E:pos()):setZ(0)))
+                    E:plySetPos(Door2:toWorld(vec(0,-5,-15)+Door1:toLocal(E:pos()):setZ(0)))
                 }
             }
             if((E:pos()+vec(0,0,E:height()/2)):distance(Door2:pos())<60){
                 if(Door2:toWorld(vec(0,100,0)):isInCone(E:shootPos(),E:eyeAngles(),45,200)){
                     E:plySetAng((Door1:right()):toAngle())
-                    E:plySetPos(Door1:toWorld(vec(0,25,-15)+Door2:toLocal(E:pos()):setZ(0)))
+                    E:plySetPos(Door1:toWorld(vec(0,-5,-15)+Door2:toLocal(E:pos()):setZ(0)))
                 }
             }
         }
