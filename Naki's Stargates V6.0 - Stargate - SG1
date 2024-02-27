@@ -2,7 +2,7 @@
 @inputs Glyph:entity
 @persist [Address Name]:string [Mat_Base Mat_Base_Symbols Mat_Chevron]:string [Color_Base Color_Base_Symbols Chev_Color_On Chev_Color_Off]:vector Width_Chevron1 Width_Chevron2 Width_Base Width Size 
 @persist SpeedSpawn Ang Flip Rotate WantedGlyph [DialedGlyphs]:array Cur CurGlyph Encode Open DialedAddress:string Called [GetTargetEntity DHDEnt]:entity Exists
-@outputs Ang Flip Rotate WantedGlyph [DialedGlyphs]:array Cur CurGlyph Encode Open DialedAddress:string Called
+@outputs Ang Flip Rotate WantedGlyph [DialedGlyphs]:array Cur CurGlyph Encode Open DialedAddress:string Called [Sound Roll]:webaudio
 @persist V V2 Error Block Val Switch Iris
 @model models/sprops/geometry/fdisc_132.mdl
 
@@ -22,7 +22,7 @@ if(first()){
     Cur=1
     
     #Name of the gate
-    Name = "SGC"
+    Name = "Earth"
     
     setName(Name+": "+Address)
     
@@ -304,6 +304,19 @@ if(first()){
             Rotate=0
             Flip=!Flip
             Encode=1
+            if(Roll:isValid()){
+                Roll:destroy()
+            }
+            if(Sound:isValid()){
+                Sound:destroy()
+            }
+            if(webAudiosLeft()>0&webAudioCanCreate()){
+                Sound = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/sgc_chevron.mp3")
+                Sound:setPos(entity():pos())
+                Sound:setRadius(2000)
+                Sound:parentTo(entity())
+                Sound:play()
+            }
             if(Cur<DialedGlyphs:count()){
                 timer("rotate",800)
                 Cur++
@@ -316,10 +329,10 @@ if(first()){
     }
     
     function resetData(){
-        Open=Exists=Rotate=Flip=0
+        Switch=Val=Called=Encode=Open=Exists=Rotate=Flip=0
         Cur=1
         DialedGlyphs=array()
-        DialedAddress=""
+        DialedAddress=GetAddress=CallingAddress=""
     }
     
     function openGate(GetAddress:string){
@@ -558,12 +571,26 @@ if(first()){
                         }
                     }else{
                         dsSend(DHDEnt:id()+"_close","stargate-naki",table(entity(),Address))
+                        dsSend(DHDEnt:id()+"_reset","stargate-naki",table(entity(),Address))
                         dsSend(DialedAddress+"_close","stargate-naki",table(Address,entity(),Name))
-                        resetData()
+                        #print(DialedAddress+"_close")
+                        timer("reset",500)
                     }
                 }else{
                     dsSend(DHDEnt:id()+"_close","stargate-naki",table(entity(),Address))
-                    resetData()
+                    dsSend(DialedAddress+"_close","stargate-naki",table(Address,entity(),Name))
+                    #print(DialedAddress+"_close")
+                    timer("reset",500)
+                    if(Sound:isValid()){
+                        Sound:destroy()
+                    }
+                    if(webAudiosLeft()>0&webAudioCanCreate()){
+                        Sound = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/close.mp3")
+                        Sound:setPos(entity():pos())
+                        Sound:setRadius(2000)
+                        Sound:parentTo(entity())
+                        Sound:play()
+                    }
                 }
             break
             
@@ -575,6 +602,18 @@ if(first()){
     }
     if(changed(DialedAddress)){
         DialedGlyphs = DialedAddress:explode("")
+    }
+    if(changed(Open)){
+        if(Sound:isValid()){
+            Sound:destroy()
+        }
+        if(webAudiosLeft()>0&webAudioCanCreate()){
+            Sound = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/sg1/open.mp3")
+            Sound:setPos(entity():pos())
+            Sound:setRadius(2000)
+            Sound:parentTo(entity())
+            Sound:play()
+        }
     }
     if(Open){
         if(Val<100){
@@ -638,6 +677,19 @@ if(first()){
 }
 if(clk("rotate")){
     Rotate=1
+    if(Roll:isValid()){
+        Roll:destroy()
+    }
+    if(webAudiosLeft()>0&webAudioCanCreate()){
+        Roll = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/gate_roll.mp3")
+        Roll:setPos(entity():pos())
+        Roll:setRadius(2000)
+        Roll:parentTo(entity())
+        Roll:play()
+    }
+}
+if(clk("reset")){
+    resetData()
 }
 if(clk("chev7")){
     Encode=0
@@ -645,4 +697,25 @@ if(clk("chev7")){
 if(clk("404")){
     resetData()
     dsSend(DHDEnt:id()+"_close","stargate-naki",table(entity(),Address))
+    timer("error",100)
+}
+if(clk("error")){
+    if(Sound:isValid()){
+        Sound:destroy()
+    }
+    if(webAudiosLeft()>0&webAudioCanCreate()){
+        Sound = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/sg1/fail.mp3")
+        Sound:setPos(entity():pos())
+        Sound:setRadius(2000)
+        Sound:parentTo(entity())
+        Sound:play()
+    }
+}
+event removed(Resetting:number) {
+    if(Roll:isValid()){
+        Roll:destroy()
+    }
+    if(Sound:isValid()){
+        Sound:destroy()
+    }
 }
