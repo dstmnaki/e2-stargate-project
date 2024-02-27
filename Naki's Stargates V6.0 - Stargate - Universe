@@ -312,7 +312,7 @@ if(first()){
                     Sound:destroy()
                 }
                 if(webAudiosLeft()>0&webAudioCanCreate()){
-                    Sound = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/universe/just_chevron.mp3")
+                    Sound = webAudio("https://raw.githubusercontent.com/RafaelDeJongh/cap_resources/master/sound/stargate/universe/chevron2.mp3")
                     Sound:setPos(entity():pos())
                     Sound:setRadius(2000)
                     Sound:parentTo(entity())
@@ -325,10 +325,11 @@ if(first()){
                     Cur=DialedGlyphs:count()+1
                     splash()
                 }
-                timer("chev7",700)
             }else{
                 AngleReturn=0
+                Ang=0
             }
+            timer("chev7",700)
         }
     }
     
