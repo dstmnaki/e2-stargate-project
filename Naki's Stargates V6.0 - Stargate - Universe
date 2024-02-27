@@ -17,12 +17,12 @@ if(first()){
     
     entity():setAlpha(0)
     
-    Address = "spawn17"
+    Address = "fqueixan1"
     
     Cur=1
     
     #Name of the gate
-    Name = "Spawn"
+    Name = "Destiny"
     
     setName(Name+": "+Address)
     
