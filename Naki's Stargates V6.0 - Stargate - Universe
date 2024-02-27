@@ -17,12 +17,12 @@ if(first()){
     
     entity():setAlpha(0)
     
-    Address = "fqueixana"
+    Address = "spawn17"
     
     Cur=1
     
     #Name of the gate
-    Name = "Destiny"
+    Name = "Spawn"
     
     setName(Name+": "+Address)
     
@@ -613,7 +613,7 @@ if(first()){
     if(changed(DialedAddress)){
         DialedGlyphs = DialedAddress:explode("")
     }
-    if(changed(Open)){
+    if(changed(Open)&Open){
         if(Sound:isValid()){
             Sound:destroy()
         }
