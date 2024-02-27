@@ -1,4 +1,4 @@
-@name Naki's Stargates V6.0 - DHD - SG1
+@name Naki's Stargates V6.0 - DHD
 @inputs TextEntry:string Dial
 @persist Address:string TargetEnt:entity
 @outputs Address:string TargetEnt:entity
@@ -6,6 +6,7 @@ if(dupefinished()){reset()}
 if(first()){
     dsJoinGroup("stargate-naki")
     dsSetScope(2)
+    runOnSignal("stargate-naki",2,1)
     #include "glyph_repository"
     #entity():setAlpha(0)
     function clearData(){
@@ -27,9 +28,10 @@ if(TargetEnt){
     }else{
         if(changed(Dial)&Dial){
             dsSend(TargetEnt:id()+"_getaddress","stargate-naki",table(entity(),Address))
+            clearData()
         }
         if(changed(TextEntry)&TextEntry){
-            Address=Address+TextEntry
+            Address=TextEntry
         }
     }
 }else{
