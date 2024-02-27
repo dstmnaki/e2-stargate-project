@@ -603,7 +603,7 @@ if(first()){
     if(changed(DialedAddress)){
         DialedGlyphs = DialedAddress:explode("")
     }
-    if(changed(Open)){
+    if(changed(Open)&Open){
         if(Sound:isValid()){
             Sound:destroy()
         }
