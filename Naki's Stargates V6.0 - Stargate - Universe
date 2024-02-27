@@ -724,7 +724,7 @@ if(clk("error")){
 }
 if(clk("anglereturn")){
     Rotate=1
-    WantedGlyph=1
+    WantedGlyph=0
     AngleReturn=1
 }
 event removed(Resetting:number) {
